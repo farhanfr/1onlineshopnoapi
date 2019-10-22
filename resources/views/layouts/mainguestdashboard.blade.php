@@ -20,6 +20,7 @@
   <!-- Custom styles for this template-->
   <link href="{{ asset('css/sb-admin-2.min.css') }}" rel="stylesheet" type="text/css">
   <link href="{{ asset('css/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.css">
 
 </head>
 
@@ -247,17 +248,21 @@
     </div>
   </div>
 
+
   <!-- Bootstrap core JavaScript-->
   <script src="{{ asset('js/jquery.min.js') }}"></script>
   <script src="{{ asset('js/bootstrap.bundle.min.js') }}"></script>
 
   <!-- Core plugin JavaScript-->
   <script src="{{ asset('js/jquery.easing.min.js') }}"></script>
-<script src="{{ asset('js/vendor/datatables/jquery.dataTables.js') }}"></script>
+  <script src="{{ asset('js/vendor/datatables/jquery.dataTables.js') }}"></script>
   <script src="{{ asset('js/vendor/datatables/dataTables.bootstrap4.js') }}"></script>
   <script src="{{ asset('js/datatables-demo.js') }}"></script>
    <!-- Custom scripts for all pages-->
   <script src="{{ asset('js/sb-admin-2.min.js') }}"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.0.0/sweetalert.min.js"></script>
+  <!-- Include this after the sweet alert js file -->
+    @include('sweet::alert')
 
   
 

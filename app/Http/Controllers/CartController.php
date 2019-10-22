@@ -7,13 +7,12 @@ use App\CartModel;
 use App\BillModel;
 use Session;
 use DB;
+use Alert;
 
 class CartController extends Controller
 {
     public function add_cart(Request $request)
     {
-        $RandomNumber=mt_rand();
-        
     	$AddCart=CartModel::create([
     		'id_item'=>$request->id_item,
     		'id_guest'=>$request->id_guest,
@@ -51,16 +50,18 @@ class CartController extends Controller
 
     public function get_cart()
     {
-        $GetCart=DB::table('cart')->where('id_guest',Session::get('id_guest'))
-        ->join('item','item.id_item','=','cart.id_item')->get();
+        $GetCart=DB::table('cart')
+        ->where('id_guest',Session::get('id_guest'))
+        ->join('item','item.id_item','=','cart.id_item')
+        ->get();
         return view('guest.guestcart',compact('GetCart'));
     }
 
     public function checkout(Request $request)
     {
-        $rand=mt_rand();//Random Number
+        $GetRandomCheckout=mt_rand();//Random Number
         $UpdateBillAppears=BillModel::where('bill_appears',0);
-        if ($UpdateBillAppears->update(array('bill_appears'=>1,'no_checkout'=>$rand))) {
+        if ($UpdateBillAppears->update(array('bill_appears'=>1,'no_checkout'=>$GetRandomCheckout))) {
             $GetBillData=BillModel::where('id_guest',Session::get('id_guest'))->get();    
             foreach ($GetBillData as $gbd) {
                 $GetNoCheckout=$gbd->no_checkout;
@@ -68,7 +69,9 @@ class CartController extends Controller
             $Checkout=CartModel::where('id_guest',Session::get('id_guest'));
             $Checkout->delete();
         if ($Checkout) {
-            return redirect('/checkouttemp/'.$GetNoCheckout)->with('notif','Berhasil checkout');// BUGGGGG
+            Alert::success('Berhasil Checkout', 'Berhasil Checkout');
+            return redirect('/checkouttemp/'.$GetNoCheckout);
+             
         }
         else{
             return redirect('/guestcart')->with('notif','gagalrhasil checkout');

@@ -10,8 +10,47 @@
 
 @section('secondary_layout')
 
-@if($GetPaymentMethod == 'ATM')
-<div class="card mb-4">
+@if($GetBillStatus == 4)
+<div style="display: none;">
+	@if($GetPaymentMethod == 'ATM')
+	<div class="card mb-4">
+		<div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+			<h6 class="m-0 font-weight-bold text-primary">E-Tech Payment System</h6>
+		</div>
+		<div class="card-body">
+			<h3>Pembayaran dengan ATM (Struk)</h3>
+			<form action="{{ url('/acceptreceiptpayment/'.$GetNoCheckout) }}" method="post" enctype="multipart/form-data">
+				@csrf
+				<div class="form-group">
+					<input type="file" name="img_receipt" class="form-control">
+				</div>
+				<input type="submit" name="submit" class="btn btn-success" value="Upload Bukti" @if($GetBillStatus == '1') disabled @endif > 
+				<a href="{{ url('/changepayment/'.$GetNoCheckout) }}" class="btn btn-danger">Ganti Pembayaran</a>
+			</form>
+		</div>
+	</div>
+
+	
+	@elseif($GetPaymentMethod == 'outlet')
+	<div class="card mb-4">
+		<div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+			<h6 class="m-0 font-weight-bold text-primary">E-Tech Payment System</h6>
+		</div>
+		<div class="card-body">
+			<h3 class="text-center"><strong>Pembayaran di Gerai E-Tech</strong></h3>
+			<h4>Kode Pembayaran : <strong>{{ $GetCodePayment }}</strong></h4>
+			<p>*)Catat atau foto kode pembayaran tersebut, kemudian tunjukkan kepada kasir</p>
+			<br>
+			<a href="{{ url('/changepayment/'.$GetNoCheckout) }}" class="btn btn-danger">Ganti Pembayaran</a>
+		</div>
+	</div>
+	@else
+	@endif
+</div>
+@else
+
+	@if($GetPaymentMethod == 'ATM')
+	<div class="card mb-4">
 	<div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
 		<h6 class="m-0 font-weight-bold text-primary">E-Tech Payment System</h6>
 	</div>
@@ -26,9 +65,9 @@
 			<a href="{{ url('/changepayment/'.$GetNoCheckout) }}" class="btn btn-danger">Ganti Pembayaran</a>
 		</form>
 	</div>
-</div>
-@elseif($GetPaymentMethod == 'outlet')
-<div class="card mb-4">
+	</div>
+	@elseif($GetPaymentMethod == 'outlet')
+	<div class="card mb-4">
 	<div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
 		<h6 class="m-0 font-weight-bold text-primary">E-Tech Payment System</h6>
 	</div>
@@ -39,9 +78,10 @@
 		<br>
 		<a href="{{ url('/changepayment/'.$GetNoCheckout) }}" class="btn btn-danger">Ganti Pembayaran</a>
 	</div>
-</div>
-@else
-@endif
+	</div>
+	@else
+	@endif
+@endif	
 
 @endsection
 
@@ -89,7 +129,7 @@
 			<div class="container">
 				<div class="row">
 					<div class="col-lg-3">
-					<button type="button" class="btn btn-primary btn-lg btn-block" data-toggle="modal" data-target="#receipt_payment">STRUK ATM</button>
+						<button type="button" class="btn btn-primary btn-lg btn-block" data-toggle="modal" data-target="#receipt_payment">STRUK ATM</button>
 					</div>
 					<div class="col-lg-3">
 						<button type="button" class="btn btn-info btn-lg btn-block" data-toggle="modal" data-target="#outlet_payment">GERAI E-TECH</button>
