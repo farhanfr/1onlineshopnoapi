@@ -36,7 +36,7 @@ class PaymentController extends Controller
 	{
 		$file= $request->file('img_receipt');
 		$fileName   = $file->getClientOriginalName();
-		$request->file('img_receipt')->move("img/", $fileName);
+		$request->file('img_receipt')->move("images/", $fileName);
 
 		$SaveProofImg=ReceiptPaymentModel::create([
 			'img_receipt'=>$fileName,
@@ -44,8 +44,9 @@ class PaymentController extends Controller
 		]);
 
 		if ($SaveProofImg) {
+			copy("images/".$fileName, "../../1onlineshopcashierNoApi/public/images/".$fileName);
 			$BillStatus=BillModel::where('no_checkout',$no_checkout);
-			$BillStatus->update(array('bill_status'=>1));
+			$BillStatus->update(array('bill_status'=>1,'id_receiptpayment'=>$SaveProofImg->id_receiptpayment));
 			return back();
 		}
 	}

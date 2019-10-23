@@ -13,12 +13,14 @@ class CreateBillTable extends Migration
      */
     public function up()
     {
-       Schema::create('bill', function (Blueprint $table) {
+        Schema::create('bill', function (Blueprint $table) {
             $table->Increments('id_bill');
             $table->integer('id_item')->unsigned();
             $table->foreign('id_item')->references('id_item')->on('item')->onDelete('cascade')->onUpdate('cascade');
             $table->integer('id_guest')->unsigned();
             $table->foreign('id_guest')->references('id_guest')->on('guest')->onDelete('cascade')->onUpdate('cascade');
+            $table->integer('id_receiptpayment')->nullable()->unsigned();
+            $table->foreign('id_receiptpayment')->references('id_receiptpayment')->on('receiptpayment')->onDelete('cascade')->onUpdate('cascade');
             $table->string('qty');
             $table->string('bill_appears');
             $table->string('bill_status');

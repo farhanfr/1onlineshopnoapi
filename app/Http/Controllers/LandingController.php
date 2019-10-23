@@ -10,7 +10,9 @@ class LandingController extends Controller
 {
 	public function get_data()
 	{
-		$GetData=DB::table('item')->join('category','category.id_category','=','item.id_category')->get();
+		$GetData=DB::table('item')
+		->join('category','category.id_category','=','item.id_category')
+		->get();
 		return view('landingpage.home',compact('GetData'));	
 	}
 
